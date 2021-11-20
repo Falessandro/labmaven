@@ -112,7 +112,7 @@ pipeline {
                 }
           }
 		  
-		   stage('Deploy to GKE') {
+		   stage('Deploy kubernetes') {
                 agent {
                     docker { 
                         image 'google/cloud-sdk:latest' 
@@ -129,7 +129,7 @@ pipeline {
                         sh 'echo "${GOOGLE_APPLICATION_CREDENTIALS}"' // returns ****
                         sh 'gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS'
                         sh 'gcloud container clusters get-credentials $CLUSTER_NAME --zone $LOCATION --project $PROJECT_ID'
-                        sh 'kubectl apply -f ./devops/clientes.yaml'
+			sh 'kubectl set image deployment/cliente-miguelgomez lab01=miguelgomez/msmicroservice'
                     }
                 }
 
